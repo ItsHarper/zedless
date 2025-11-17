@@ -1,4 +1,3 @@
-# TODO(zedless-collab): Update for LiveKit removal
 {
   lib,
   rustPlatform,
@@ -35,7 +34,6 @@
   libGL,
   libX11,
   libXext,
-  livekit-libwebrtc,
   testers,
   writableTmpDirAsHomeHook,
   withGLES ? false,
@@ -73,11 +71,7 @@ in
 
     outputs = ["out"] ++ lib.optional buildRemoteServer "remote_server";
 
-    # Dynamically link WebRTC instead of static
     postPatch = ''
-      substituteInPlace ../cargo-vendor-dir/webrtc-sys-*/build.rs \
-        --replace-fail "cargo:rustc-link-lib=static=webrtc" "cargo:rustc-link-lib=dylib=webrtc"
-
       echo stable > crates/zed/RELEASE_CHANNEL
     '';
 
@@ -117,8 +111,6 @@ in
         libxkbcommon
         wayland
         xorg.libxcb
-        # required by livekit:
-        libGL
         libX11
         libXext
       ]
@@ -157,7 +149,6 @@ in
       ZED_UPDATE_EXPLANATION = "Zed has been installed using Nix. Auto-updates have thus been disabled.";
       # Used by `zed --version`
       RELEASE_VERSION = version;
-      LK_CUSTOM_WEBRTC = livekit-libwebrtc;
     };
 
     preBuild = ''
