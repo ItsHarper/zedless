@@ -2,7 +2,7 @@
   mkShell,
   makeFontsConf,
 
-  zed-editor,
+  zedless,
 
   rust-analyzer,
   cargo-nextest,
@@ -13,8 +13,8 @@
   protobuf,
   gdb,
 }:
-(mkShell.override { inherit (zed-editor) stdenv; }) {
-  inputsFrom = [ zed-editor ];
+(mkShell.override { inherit (zedless) stdenv; }) {
+  inputsFrom = [ zedless ];
   packages = [
     rust-analyzer
     cargo-nextest
@@ -28,7 +28,7 @@
   env =
     let
       baseEnvs =
-        (zed-editor.overrideAttrs (attrs: {
+        (zedless.overrideAttrs (attrs: {
           passthru = { inherit (attrs) env; };
         })).env; # exfil `env`; it's not in drvAttrs
     in

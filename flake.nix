@@ -23,13 +23,13 @@
     forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
   in {
     packages = forAllSystems (pkgs: {
-      zed-editor = pkgs.callPackage ./nix/package.nix {};
-      default = self.packages.${pkgs.stdenv.system}.zed-editor;
+      zedless = pkgs.callPackage ./nix/package.nix {};
+      default = self.packages.${pkgs.stdenv.system}.zedless;
     });
 
     devShells = forAllSystems (pkgs: {
       default = pkgs.callPackage ./nix/shell.nix {
-        inherit (self.packages.${pkgs.stdenv.system}) zed-editor;
+        inherit (self.packages.${pkgs.stdenv.system}) zedless;
       };
     });
 

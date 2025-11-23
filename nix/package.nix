@@ -50,7 +50,7 @@ assert withGLES -> stdenv.hostPlatform.isLinux; let
 
   # Cargo.toml located in repo root does not contain any version information.
   cargoToml = fromTOML (readFile ../crates/zed/Cargo.toml);
-  pname = cargoToml.package.name;
+  pname = "zedless";
   version = cargoToml.package.version;
   src = toSource {
     root = ../.;
