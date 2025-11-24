@@ -23,7 +23,6 @@
   makeFontsConf,
   vulkan-loader,
   envsubst,
-  gitUpdater,
   cargo-about,
   versionCheckHook,
   zed-editor,
@@ -31,7 +30,6 @@
   git,
   apple-sdk_15,
   darwinMinVersionHook,
-  libGL,
   libX11,
   libXext,
   testers,
@@ -50,7 +48,7 @@ assert withGLES -> stdenv.hostPlatform.isLinux; let
 
   # Cargo.toml located in repo root does not contain any version information.
   cargoToml = fromTOML (readFile ../crates/zed/Cargo.toml);
-  pname = cargoToml.package.name;
+  pname = "zedless";
   version = cargoToml.package.version;
   src = toSource {
     root = ../.;
@@ -215,7 +213,7 @@ in
         ln -s $out/Applications/Zed.app/Contents/MacOS/cli $out/bin/zeditor
       ''
       + lib.optionalString stdenv.hostPlatform.isLinux ''
-        install -Dm755 $release_target/zed $out/libexec/zed-editor
+        install -Dm755 $release_target/zed $out/libexec/zedless-editor
         install -Dm755 $release_target/cli $out/bin/zedless
         ln -s $out/bin/zedless $out/bin/zed
         ln -s $out/bin/zedless $out/bin/zeditor
